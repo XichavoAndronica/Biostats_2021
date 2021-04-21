@@ -36,7 +36,7 @@ ggplot(data = snakes, aes(x = day, y = openings)) +
 
 snakes.aov <- aov(openings ~ day + snake, data = snakes)
 summary(snakes.aov)
-
+par(mfrow = c(2, 2))
 
 snakes.res <- residuals(snakes.aov)
 hist(snakes.res, col = "red")
@@ -46,3 +46,13 @@ plot(fitted(snakes.aov), residuals(snakes.aov), col = "red")
 
 snakes.tukey <- TukeyHSD(snakes.aov, which = "day", conf.level = 0.90)
 plot(snakes.tukey, las = 1, col = "red")
+
+
+ggplot(data = snakes, aes(x = day, y = openings)) +
+geom_bar(stat = "identity", fill = "green") +
+labs(x = "day", y = "openings") + 
+ggtitle("Graph showing snake data in days")
+
+ggplot(data = snakes, aes(x = openings)) +
+  geom_histogram(aes(fill = day), position = "dodge", binwidth = 100) +
+  labs(x = "snake", y = "count")
